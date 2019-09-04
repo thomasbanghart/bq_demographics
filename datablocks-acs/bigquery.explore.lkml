@@ -10,7 +10,7 @@ explore: fast_facts {
     sql_on: ${bq_logrecno_bg_map.block_group} = ${block_group_facts.logrecno_bg_map_block_group};;
     relationship: one_to_one
   }
-
+#
   join: tract_zcta_map {
     from: bq_tract_zcta_map
     sql_on: ${bq_logrecno_bg_map.geoid11} = ${tract_zcta_map.geoid11};;
