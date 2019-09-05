@@ -13,7 +13,6 @@ view: bq_zcta_distances {
             {% parameter zcta_distances.zip1 %} as zip2,
             0
           ;;
-
     }
 
     dimension: mi_to_zcta5 {
@@ -24,22 +23,33 @@ view: bq_zcta_distances {
       sql: ${TABLE}.mi_to_zcta5 ;;
       value_format_name: decimal_2
     }
+#     parameter: zip1 {
+#       type: number
+#       suggest_dimension: bq_tract_zcta_map.ZCTA5
+#     }
+#   parameter: zip2 {
+#     type: number
+#     suggest_dimension: bq_tract_zcta_map.ZCTA5
+#   }
+
+
 
     dimension: zip1 {
-      label: "Selected ZIP Code"
-      view_label: "Geography"
-      group_label: "ZIP Radii"
-      type: zipcode
-      sql: ${TABLE}.zip1 ;;
-      suggestable: no
-    }
+       label: "Selected ZIP Code"
+       view_label: "Geography"
+       group_label: "ZIP Radii"
+       type: zipcode
+       sql: ${TABLE}.zip1 ;;
+       suggestable: no
+     }
 
-    dimension: zip2 {
-      label: "Nearby ZIP"
-      view_label: "Geography"
-      group_label: "ZIP Radii"
-      type: zipcode
-      sql: ${TABLE}.zip2 ;;
+     dimension: zip2 {
+       label: "Nearby ZIP"
+       view_label: "Geography"
+       group_label: "ZIP Radii"
+       type: zipcode
+       sql: ${TABLE}.zip2 ;;
       hidden: yes
-    }
-  }
+     }
+
+}
