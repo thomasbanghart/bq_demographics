@@ -7,6 +7,53 @@ view: bq_block_group_facts {
     sql: ${TABLE}.logrecno_bg_map_block_group ;;
     primary_key: yes
   }
+  parameter: measure_to_compare {
+    type: string
+    allowed_value: {label:"Average Income per Household" value:"Average Income per Household" }
+    allowed_value: {label:"Percent 65 or Older"          value:"Percent 65 or Older"          }
+    allowed_value: {label:"Percent Female"               value:"Percent Female"               }
+    allowed_value: {label:"Percent Male"                 value:"Percent Male"                 }
+    allowed_value: {label:"Percent White"                value:"Percent White"                }
+    allowed_value: {label:"Percent White(Non-Hispanic)"  value:"Percent White(Non-Hispanic)"  }
+    allowed_value: {label:"Percent Hispanic or Latino"   value:"Percent Hispanic or Latino"   }
+    allowed_value: {label:"Percent Black"                value:"Percent Black"                }
+    allowed_value: {label:"Percent Asian"                value:"Percent Asian"                }
+    allowed_value: {label:"Percent Native American"      value:"Percent Native American"      }
+    allowed_value: {label:"Percent Native Hawaiian"      value:"Percent Native Hawaiian"      }
+
+  }
+  dimension: param_value {
+    hidden: no
+    sql: {{measure_to_compare._parameter_value}} ;;
+  }
+  measure: measure_selector {
+    type: number
+    sql:
+    {% if    {{measure_to_compare._parameter_value}} == "'Average Income per Household'"    %}
+      ${avg_income_house}
+    {% elsif {{measure_to_compare._parameter_value}} == "'Percent 65 or Older'"             %}
+      ${pct_65_over}
+    {% elsif {{measure_to_compare._parameter_value}} == "'Percent Female'"                  %}
+      ${pct_female}
+    {% elsif {{measure_to_compare._parameter_value}} == "'Percent Male'"                    %}
+      ${pct_male}
+    {% elsif {{measure_to_compare._parameter_value}} == "'Percent White'"                   %}
+      ${pct_white}
+    {% elsif {{measure_to_compare._parameter_value}} == "'Percent White(Non-Hispanic)'"     %}
+      ${pct_white_nh}
+    {% elsif {{measure_to_compare._parameter_value}} == "'Percent Hispanic or Latino'"      %}
+      ${pct_hispanic_or_latino}
+    {% elsif {{measure_to_compare._parameter_value}} == "'Percent Black'"                   %}
+      ${pct_black}
+    {% elsif {{measure_to_compare._parameter_value}} == "'Percent Asian'"                   %}
+      ${pct_asian}
+    {% elsif {{measure_to_compare._parameter_value}} == "'Percent Native American'"         %}
+      ${pct_amind}
+    {% elsif {{measure_to_compare._parameter_value}} == "'Percent Native Hawaiian'"         %}
+      ${pct_nathaw}
+    {% endif %};;
+    value_format: "[<1]0%;[>=1]$0"
+  }
 
   measure: total_population {
     description: "Total Population"
@@ -71,7 +118,6 @@ view: bq_block_group_facts {
   }
 
   # Racial Measures
-
   measure: white_alone_or_in_combo {
     label: "White Population (Alone or in Combo with Other Races)"
     group_label: "Race"
