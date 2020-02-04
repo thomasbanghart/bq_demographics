@@ -51,6 +51,8 @@ view: bq_block_group_facts {
       ${pct_amind}
     {% elsif {{measure_to_compare._parameter_value}} == "'Percent Native Hawaiian'"         %}
       ${pct_nathaw}
+    {% else %}
+      ${avg_income_house}
     {% endif %};;
     value_format: "[<1]0%;[>=1]$0"
   }
